@@ -8,10 +8,20 @@
             "email": "zhengzhe94@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "laravel/framework": "~5.5",
+        "hprose/hprose": "^2.0"
+    },
     "autoload": {
         "psr-4": {
             "Gzoran\\LaravelMicroService\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Gzoran\\LaravelMicroService\\LaravelMicroServiceProvider"
+            ]
         }
     }
 }
