@@ -69,7 +69,7 @@ abstract class ServerAbstract implements ServerContract
 
         $this->server->addFilter(new EncryptFilter());
 
-        $middleware = array_merge($this->kernel->middleware(), $this->middleware);
+        $middleware = array_merge($this->kernel->getMiddleware(), $this->middleware);
         $this->server->setMiddleware($middleware);
 
         $this->server->start();
@@ -82,7 +82,7 @@ abstract class ServerAbstract implements ServerContract
      */
     protected function register()
     {
-        $services = array_merge($this->kernel->services(), $this->services);
+        $services = array_merge($this->kernel->getServices(), $this->services);
 
         foreach ($services as $prefix => $service) {
             $this->server->addInstanceMethods(new $service, '', $prefix);

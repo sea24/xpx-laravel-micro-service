@@ -9,18 +9,23 @@ class Kernel
      *
      * @var array
      */
-    protected $middleware = [
-        //
-    ];
+    protected $middleware = [];
 
     /**
      * 中间件组
      *
      * @var array
      */
-    protected $middlewareGroups = [
-        // 组名 => 中间件数组
-    ];
+    protected $middlewareGroups = [];
+
+    /**
+     * Kernel constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware = config('microservice.client_middleware', []);
+        $this->middlewareGroups = config('microservice.client_middleware_groups', []);
+    }
 
     /**
      * @return array
