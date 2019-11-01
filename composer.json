@@ -1,0 +1,17 @@
+{
+    "name": "gzoran\/laravel-micro-service",
+    "description": "The micro service support for laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mike",
+            "email": "zhengzhe94@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Gzoran\\LaravelMicroService\\": "src"
+        }
+    }
+}
