@@ -43,7 +43,7 @@ abstract class RemoteAbstract implements RemoteContract
      *
      * @var int
      */
-    protected $networkFailCounter = 0;
+    protected $failCounter = 0;
 
     /**
      * 客户端实例
@@ -109,10 +109,11 @@ abstract class RemoteAbstract implements RemoteContract
         try {
             return $this->$method(...$request->arguments);
         } catch (\Exception $exception) {
+            logs()->warning("[Invoke Fail] {$request->getClass()}::{$request->getMethod()} invoke fail：{$exception->getMessage()}");
             $methodRetry = $request->getRetry();
-            if ($this->networkFailCounter < $methodRetry) {
-                $this->networkFailCounter++;
-                logs()->warning('Remote invoke retry times ' . $this->networkFailCounter . '; service name:' . $this->scheduler->serverName() . '; method:' . $method);
+            if ($this->failCounter < $methodRetry) {
+                $this->failCounter++;
+                logs()->warning("[Invoke Retry] {$request->getClass()}::{$request->getMethod()} invoke retry：{$this->failCounter}");
                 // 将节点失败计数 + 1
                 $this->node->increaseFailCounter();
                 // 重新来一次

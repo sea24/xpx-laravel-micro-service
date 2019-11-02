@@ -29,7 +29,7 @@ class BaseCircuitBreaker extends CircuitBreakerAbstract
                 throw $exception;
             }
 
-            logs()->warning('Base circuit breaker failback! Service name:' . $this->request->getServerName() . '; Invoke:' . $this->request->getClass() . '::' . $this->request->getMethod());
+            logs()->warning("[Circuit Breaker Failback] {$this->request->getClass()}::{$this->request->getMethod()} invoke fail：{$exception->getMessage()}");
 
             return $failback($exception);
         }
