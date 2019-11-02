@@ -175,7 +175,8 @@ abstract class ClientAbstract implements ClientContract
      */
     public function remoteInvoke(Request $request)
     {
-        $this->remote->setScheduler($this->scheduler);
+        $this->remote->setScheduler($this->scheduler)
+            ->setFilters($this->kernel->getFilters());
 
         // 若客户端或方法配置了熔断器, 则使用熔断器执行
         $circuitBreakerClass = null;

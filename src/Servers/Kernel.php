@@ -2,6 +2,8 @@
 
 namespace Gzoran\LaravelMicroService\Servers;
 
+use Gzoran\LaravelMicroService\Servers\Filters\EncryptFilter;
+
 class Kernel
 {
     /**
@@ -19,36 +21,46 @@ class Kernel
     protected $middleware = [];
 
     /**
+     * 全局过滤器
+     *
+     * @var array
+     */
+    protected $filters = [];
+
+    /**
      * Kernel constructor.
      */
     public function __construct()
     {
         $this->services = config('microservice.server_services', []);
         $this->middleware = config('microservice.server_middleware', []);
+        $this->filters = config('microservice.server_filters', []);
     }
 
     /**
-     * 注册全局服务
-     *
      * @return array
      * @author Mike <zhengzhe94@gmail.com>
      */
     public function getServices()
     {
-        // 数组的 key 为服务名前缀，用以区分不同服务类的相同方法，单词用下划线分割
-        return [
-            //
-        ];
+        return $this->services;
     }
 
     /**
-     * 全局中间件
-     *
      * @return array
      * @author Mike <zhengzhe94@gmail.com>
      */
     public function getMiddleware()
     {
         return $this->middleware;
+    }
+
+    /**
+     * @return array
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function getFilters()
+    {
+        return $this->filters;
     }
 }

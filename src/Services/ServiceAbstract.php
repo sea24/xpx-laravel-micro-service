@@ -1,4 +1,5 @@
 <?php
+
 namespace Gzoran\LaravelMicroService\Services;
 
 use Gzoran\LaravelMicroService\Services\Contracts\ServiceContract;

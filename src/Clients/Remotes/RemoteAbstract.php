@@ -2,7 +2,6 @@
 
 namespace Gzoran\LaravelMicroService\Clients\Remotes;
 
-use Gzoran\LaravelMicroService\Clients\Filters\EncryptFilter;
 use Gzoran\LaravelMicroService\Clients\Contracts\RemoteContract;
 use Gzoran\LaravelMicroService\Clients\Contracts\SchedulerContract;
 use Gzoran\LaravelMicroService\Clients\Exceptions\ClientException;
@@ -31,6 +30,13 @@ abstract class RemoteAbstract implements RemoteContract
      * @var SchedulerContract
      */
     protected $scheduler;
+
+    /**
+     * 过滤器
+     *
+     * @var array
+     */
+    protected $filters = [];
 
     /**
      * 失败计数
@@ -76,7 +82,11 @@ abstract class RemoteAbstract implements RemoteContract
             $url = trim("{$scheme}://{$this->node->getHost()}:{$this->node->getPort()}/{$this->node->getPath()}", '/');
             // 建立同步客户
             $this->client = Client::create($url, false);
-            $this->client->addFilter(new EncryptFilter());
+
+            foreach ($this->filters as $filter) {
+                $this->client->addFilter(new $filter);
+            }
+
             $this->client->timeout = $this->timeout;
         }
 
@@ -123,6 +133,18 @@ abstract class RemoteAbstract implements RemoteContract
     public function setScheduler(SchedulerContract $scheduler)
     {
         $this->scheduler = $scheduler;
+
+        return $this;
+    }
+
+    /**
+     * @param array $filters
+     * @return $this|RemoteContract
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function setFilters(array $filters)
+    {
+        $this->filters = $filters;
 
         return $this;
     }

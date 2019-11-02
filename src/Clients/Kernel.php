@@ -19,12 +19,20 @@ class Kernel
     protected $middlewareGroups = [];
 
     /**
+     * 全局过滤器
+     *
+     * @var array
+     */
+    protected $filters = [];
+
+    /**
      * Kernel constructor.
      */
     public function __construct()
     {
         $this->middleware = config('microservice.client_middleware', []);
         $this->middlewareGroups = config('microservice.client_middleware_groups', []);
+        $this->filters = config('microservice.client_filters', []);
     }
 
     /**
@@ -43,5 +51,14 @@ class Kernel
     public function getMiddlewareGroups()
     {
         return $this->middlewareGroups;
+    }
+
+    /**
+     * @return array
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function getFilters()
+    {
+        return $this->filters;
     }
 }

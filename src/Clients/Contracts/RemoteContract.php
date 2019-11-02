@@ -29,4 +29,13 @@ interface RemoteContract
      * @author Mike <zhengzhe94@gmail.com>
      */
     public function setScheduler(SchedulerContract $scheduler);
+
+    /**
+     * 设置过滤器
+     *
+     * @param array $filters
+     * @return RemoteContract
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function setFilters(array $filters);
 }

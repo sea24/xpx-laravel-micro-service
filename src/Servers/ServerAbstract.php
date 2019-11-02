@@ -4,7 +4,6 @@ namespace Gzoran\LaravelMicroService\Servers;
 
 use Gzoran\LaravelMicroService\Servers\Contracts\HproseServerContract;
 use Gzoran\LaravelMicroService\Servers\Contracts\ServerContract;
-use Gzoran\LaravelMicroService\Servers\Filters\EncryptFilter;
 
 /**
  * RPC 服务端抽象类
@@ -67,7 +66,9 @@ abstract class ServerAbstract implements ServerContract
 
         $this->register();
 
-        $this->server->addFilter(new EncryptFilter());
+        foreach ($this->kernel->getFilters() as $filter) {
+            $this->server->addFilter(new $filter);
+        }
 
         $middleware = array_merge($this->kernel->getMiddleware(), $this->middleware);
         $this->server->setMiddleware($middleware);
