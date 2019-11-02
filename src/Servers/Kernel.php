@@ -2,8 +2,6 @@
 
 namespace Gzoran\LaravelMicroService\Servers;
 
-use Gzoran\LaravelMicroService\Servers\Filters\EncryptFilter;
-
 class Kernel
 {
     /**
