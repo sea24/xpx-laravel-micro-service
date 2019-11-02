@@ -6,7 +6,9 @@ use Gzoran\LaravelMicroService\Clients\Exceptions\ClientException;
 use Gzoran\LaravelMicroService\Clients\Exceptions\EnableNodeNotFoundException;
 use Gzoran\LaravelMicroService\Clients\Filters\EncryptFilter;
 use Gzoran\LaravelMicroService\Clients\Node;
+use Gzoran\LaravelMicroService\Clients\Request;
 use Hprose\Client;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 
@@ -18,6 +20,13 @@ use Illuminate\Support\Facades\Cache;
  */
 class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
 {
+    /**
+     * 服务中心服务前缀
+     *
+     * @var string
+     */
+    protected $serviceCenterPrefix = 'service';
+
     /**
      * 服务中心节点列表
      *
@@ -51,7 +60,7 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
      *
      * @var int
      */
-    protected $retry = 5;
+    protected $retry = 3;
 
     /**
      * 失败计数
@@ -61,12 +70,30 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
     protected $failCounter = 0;
 
     /**
+     * 全局中间件
+     * 
+     * @var array 
+     */
+    protected $middleware = [];
+
+    /**
+     * 全局过滤器
+     *
+     * @var array
+     */
+    protected $filters = [];
+
+    /**
      * RemoteServiceCenterDriver constructor.
      */
     public function __construct()
     {
+        $this->serviceCenterPrefix = config('microservice.service_center_prefix', 'service');
         $this->nodesCacheKey = config('microservice.nodes_cache_key', 'service_nodes');
         $this->nodesCacheExpire = config('microservice.nodes_cache_expire', 3600);
+        $this->filters = config('microservice.client_filters', []);
+        $this->middleware = config('microservice.client_middleware', []);
+
         $this->initServiceCenterNodes();
     }
 
@@ -110,7 +137,10 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
          * @var Client $client
          */
         $client = Client::create($url, false);
-        $client->addFilter(new EncryptFilter());
+        // 注册过滤器
+        foreach ($this->filters as $filter) {
+            $client->addFilter(new $filter);
+        }
         $client->timeout = $this->timeout;
 
         return $client;
@@ -148,7 +178,7 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
         $serviceCenterNode = $this->getServiceCenterNode();
 
         try {
-            $hash = $this->client($serviceCenterNode)->service->nodesHash($this->serverName);
+            $hash = $this->nodesHashThroughPipelines($serviceCenterNode);
             // 对比缓存中的哈希
             $cacheKey = $this->serverName . '_' . $this->nodesCacheKey . '_hash';
             if (Cache::get($cacheKey) == $hash) {
@@ -180,7 +210,7 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
     {
         $serviceCenterNode = $this->getServiceCenterNode();
         try {
-            return $this->client($serviceCenterNode)->service->getNodes($this->serverName);
+            return $this->getNodesThroughPipelines($serviceCenterNode);
         } catch (\Exception $exception) {
             if ($this->failCounter <= $this->retry) {
                 $this->failCounter++;
@@ -192,5 +222,74 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
             }
             throw $exception;
         }
+    }
+
+    /**
+     * @param Node $serviceCenterNode
+     * @return mixed
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    protected function getNodesThroughPipelines(Node $serviceCenterNode)
+    {
+        // 管道
+        $request = new Request('service_center_server', static::class, 'getNodes', [
+            'node' => $serviceCenterNode,
+        ], $this->retry);
+        $result = app(Pipeline::class)
+            ->send($request)
+            ->through($this->middleware)
+            ->then(function (Request $request) {
+                // 执行调用
+                return $this->invokeGetNodes($request);
+            });
+
+        return $result;
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws ClientException
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    protected function invokeGetNodes(Request $request) {
+        return $this->client($request->arguments['node'])
+            ->useService([], $this->serviceCenterPrefix)
+            ->getNodes($this->serverName);
+    }
+
+    /**
+     * @param Node $serviceCenterNode
+     * @return mixed
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    protected function nodesHashThroughPipelines(Node $serviceCenterNode)
+    {
+        // 管道
+        $request = new Request('service_center_server', static::class, 'nodesHash', [
+            'node' => $serviceCenterNode,
+        ], $this->retry);
+        $result = app(Pipeline::class)
+            ->send($request)
+            ->through($this->middleware)
+            ->then(function (Request $request) {
+                // 执行调用
+                return $this->invokeNodesHash($request);
+            });
+
+        return $result;
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws ClientException
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    protected function invokeNodesHash(Request $request)
+    {
+        return $this->client($request->arguments['node'])
+            ->useService([], $this->serviceCenterPrefix)
+            ->nodesHash($this->serverName);
     }
 }

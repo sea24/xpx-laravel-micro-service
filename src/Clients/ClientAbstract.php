@@ -139,7 +139,7 @@ abstract class ClientAbstract implements ClientContract
      */
     protected function getPipes(string $method)
     {
-        // 获取全局中间价
+        // 获取全局中间件
         $pipes = $this->kernel->getMiddleware();
         // 中间件组
         $middlewareGroups = $this->kernel->getMiddlewareGroups();
@@ -230,7 +230,7 @@ abstract class ClientAbstract implements ClientContract
         $result = app(Pipeline::class)
             ->send($request)
             ->through($pipes)
-            ->then(function (Request $request) use ($method) {
+            ->then(function (Request $request) {
                 // 执行调用
                 return $this->remoteInvoke($request);
             });
