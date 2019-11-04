@@ -61,6 +61,7 @@ class ReportServer extends Command
                 $driverClass = config('microservice.service_center_driver.remote', RemoteServiceCenterDriver::class);
                 break;
             case 'local':
+                $this->warn('Your service center driver is local.');
                 $driverClass = config('microservice.service_center_driver.local', LocalServiceCenterDriver::class);
                 break;
             default:
