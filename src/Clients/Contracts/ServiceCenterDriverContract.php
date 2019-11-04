@@ -44,4 +44,14 @@ interface ServiceCenterDriverContract
      * @author Mike <zhengzhe94@gmail.com>
      */
     public function registerServer(string $serverName, array $node): bool;
+
+    /**
+     * 注销服务端
+     *
+     * @param string $serverName
+     * @param array $node
+     * @return bool
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function logoutServer(string $serverName, array $node): bool;
 }

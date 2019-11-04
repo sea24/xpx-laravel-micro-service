@@ -9,26 +9,26 @@ use Gzoran\LaravelMicroService\Clients\ServiceCenterDrivers\RemoteServiceCenterD
 use Illuminate\Console\Command;
 
 /**
- * 注册服务
- * Class RegisterServer
+ * 注销服务
+ * Class LogoutServer
  *
  * @package Gzoran\LaravelMicroService\Commands
  */
-class RegisterServer extends Command
+class LogoutServer extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'microservice:register_server';
+    protected $signature = 'microservice:logout_server';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Register server and nodes to service center.';
+    protected $description = 'Logout server\'s nodes in service center.';
 
     /**
      * 服务中心驱动
@@ -76,7 +76,7 @@ class RegisterServer extends Command
             $serverName = $serverRegister['server_name'];
             $url = '';
             foreach ($serverRegister['nodes'] as $node) {
-                $this->serviceCenterDriver->registerServer($serverName, $node);
+                $this->serviceCenterDriver->logoutServer($serverName, $node);
                 $url .= trim("{$node['scheme']}://{$node['host']}:{$node['port']}/{$node['path']}", "/") . "\r\n";
             }
             $tableRow[$i][] = $serverName;
@@ -84,7 +84,7 @@ class RegisterServer extends Command
             $i++;
         }
 
-        $this->info('The servers has been registered!');
+        $this->info('The servers has been logout!');
 
         $this->table([
             'Server Name',
