@@ -250,6 +250,22 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
     }
 
     /**
+     * 报告服务端心跳
+     *
+     * @param string $serverName
+     * @param array $node
+     * @return bool
+     * @throws \Exception
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function reportServer(string $serverName, array $node): bool
+    {
+        $serviceCenterNode = $this->getServiceCenterNode();
+
+        return $this->invokeThroughPipelines('remoteReportServer', $serviceCenterNode, $serverName, $node);
+    }
+
+    /**
      * 通过管道调用
      *
      * @param $method
@@ -317,5 +333,18 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
     protected function remoteLogoutServer(Node $serviceCenterNode, string $serverName, array $node)
     {
         return $this->client($serviceCenterNode)->service->logoutServer($serverName, $node);
+    }
+
+    /**
+     * @param Node $serviceCenterNode
+     * @param string $serverName
+     * @param array $node
+     * @return mixed
+     * @throws ClientException
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    protected function remoteReportServer(Node $serviceCenterNode, string $serverName, array $node)
+    {
+        return $this->client($serviceCenterNode)->service->reportServer($serverName, $node);
     }
 }

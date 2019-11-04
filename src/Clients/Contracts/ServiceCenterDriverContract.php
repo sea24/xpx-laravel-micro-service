@@ -54,4 +54,14 @@ interface ServiceCenterDriverContract
      * @author Mike <zhengzhe94@gmail.com>
      */
     public function logoutServer(string $serverName, array $node): bool;
+
+    /**
+     * 报告服务端心跳
+     *
+     * @param string $serverName
+     * @param array $node
+     * @return bool
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function reportServer(string $serverName, array $node): bool;
 }
