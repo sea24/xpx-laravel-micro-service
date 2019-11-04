@@ -5,6 +5,7 @@ namespace Gzoran\LaravelMicroService\Clients\Remotes;
 use Gzoran\LaravelMicroService\Clients\Contracts\RemoteContract;
 use Gzoran\LaravelMicroService\Clients\Contracts\SchedulerContract;
 use Gzoran\LaravelMicroService\Clients\Exceptions\ClientException;
+use Gzoran\LaravelMicroService\Clients\Exceptions\RemoteInvokeException;
 use Gzoran\LaravelMicroService\Clients\Node;
 use Gzoran\LaravelMicroService\Clients\Request;
 use Hprose\Client;
@@ -120,7 +121,7 @@ abstract class RemoteAbstract implements RemoteContract
                 return $this->invoke($request);
             }
 
-            throw $exception;
+            throw new RemoteInvokeException($exception->getMessage());
         }
     }
 
