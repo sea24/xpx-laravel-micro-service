@@ -87,16 +87,17 @@ abstract class SchedulerAbstract implements SchedulerContract
         $this->getNodesRetry = config('microservice.get_nodes_retry', 3);
 
         // 服务中心驱动
-        switch ($driver = config('microservice.service_center_driver', 'local')) {
+        switch ($driver = config('microservice.service_center_driver.default', 'local')) {
             case 'remote':
-                $this->serviceCenterDriver = new RemoteServiceCenterDriver();
+                $driverClass = config('microservice.service_center_driver.remote', RemoteServiceCenterDriver::class);
                 break;
             case 'local':
-                $this->serviceCenterDriver = new LocalServiceCenterDriver();
+                $driverClass = config('microservice.service_center_driver.local', LocalServiceCenterDriver::class);
                 break;
             default:
                 throw new ClientException('Cat not match service center driver like:' . $driver);
         }
+        $this->serviceCenterDriver = new $driverClass;
     }
 
     /**

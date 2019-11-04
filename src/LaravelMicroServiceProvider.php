@@ -2,6 +2,7 @@
 
 namespace Gzoran\LaravelMicroService;
 
+use Gzoran\LaravelMicroService\Commands\RegisterServer;
 use Illuminate\Support\ServiceProvider;
 
 class LaravelMicroServiceProvider extends ServiceProvider
@@ -30,5 +31,12 @@ class LaravelMicroServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/microservice.php' => config_path('microservice.php'),
         ]);
+
+        // 注册命令
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                RegisterServer::class,
+            ]);
+        }
     }
 }

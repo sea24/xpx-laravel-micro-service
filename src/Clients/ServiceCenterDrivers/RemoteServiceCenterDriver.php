@@ -21,13 +21,6 @@ use Illuminate\Support\Facades\Cache;
 class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
 {
     /**
-     * 服务中心服务前缀
-     *
-     * @var string
-     */
-    protected $serviceCenterPrefix = 'service';
-
-    /**
      * 服务中心节点列表
      *
      * @var array
@@ -88,7 +81,6 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
      */
     public function __construct()
     {
-        $this->serviceCenterPrefix = config('microservice.service_center_prefix', 'service');
         $this->nodesCacheKey = config('microservice.nodes_cache_key', 'service_nodes');
         $this->nodesCacheExpire = config('microservice.nodes_cache_expire', 3600);
         $this->filters = config('microservice.client_filters', []);
@@ -178,7 +170,7 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
         $serviceCenterNode = $this->getServiceCenterNode();
 
         try {
-            $hash = $this->nodesHashThroughPipelines($serviceCenterNode);
+            $hash = $this->invokeThroughPipelines('remoteNodesHash', $serviceCenterNode);
             // 对比缓存中的哈希
             $cacheKey = $this->serverName . '_' . $this->nodesCacheKey . '_hash';
             if (Cache::get($cacheKey) == $hash) {
@@ -209,8 +201,9 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
     public function getNodes(): array
     {
         $serviceCenterNode = $this->getServiceCenterNode();
+
         try {
-            return $this->getNodesThroughPipelines($serviceCenterNode);
+            return $this->invokeThroughPipelines('remoteGetNodes', $serviceCenterNode);
         } catch (\Exception $exception) {
             if ($this->failCounter <= $this->retry) {
                 $this->failCounter++;
@@ -225,71 +218,75 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
     }
 
     /**
-     * @param Node $serviceCenterNode
+     * 注册服务端
+     *
+     * @param string $serverName
+     * @param array $node
+     * @return bool
+     * @throws \Exception
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function registerServer(string $serverName, array $node): bool
+    {
+        $serviceCenterNode = $this->getServiceCenterNode();
+
+        return $this->invokeThroughPipelines('remoteRegisterServer', $serviceCenterNode, $serverName, $node);
+    }
+
+    /**
+     * 通过管道调用
+     *
+     * @param $method
+     * @param mixed ...$arguments
      * @return mixed
      * @author Mike <zhengzhe94@gmail.com>
      */
-    protected function getNodesThroughPipelines(Node $serviceCenterNode)
+    protected function invokeThroughPipelines($method, ...$arguments)
     {
         // 管道
-        $request = new Request('service_center_server', static::class, 'getNodes', [
-            'node' => $serviceCenterNode,
-        ], $this->retry);
+        $request = new Request('service_center_server', static::class, $method, $arguments, $this->retry);
         $result = app(Pipeline::class)
             ->send($request)
             ->through($this->middleware)
-            ->then(function (Request $request) {
+            ->then(function (Request $request) use ($method) {
                 // 执行调用
-                return $this->invokeGetNodes($request);
+                return $this->$method(...$request->arguments);
             });
 
         return $result;
     }
 
     /**
-     * @param Request $request
+     * @param Node $serviceCenterNode
      * @return mixed
      * @throws ClientException
      * @author Mike <zhengzhe94@gmail.com>
      */
-    protected function invokeGetNodes(Request $request) {
-        return $this->client($request->arguments['node'])
-            ->useService([], $this->serviceCenterPrefix)
-            ->getNodes($this->serverName);
+    protected function remoteNodesHash(Node $serviceCenterNode)
+    {
+        return $this->client($serviceCenterNode)->service->nodesHash($this->serverName);
     }
 
     /**
      * @param Node $serviceCenterNode
      * @return mixed
+     * @throws ClientException
      * @author Mike <zhengzhe94@gmail.com>
      */
-    protected function nodesHashThroughPipelines(Node $serviceCenterNode)
-    {
-        // 管道
-        $request = new Request('service_center_server', static::class, 'nodesHash', [
-            'node' => $serviceCenterNode,
-        ], $this->retry);
-        $result = app(Pipeline::class)
-            ->send($request)
-            ->through($this->middleware)
-            ->then(function (Request $request) {
-                // 执行调用
-                return $this->invokeNodesHash($request);
-            });
-
-        return $result;
+    protected function remoteGetNodes(Node $serviceCenterNode) {
+        return $this->client($serviceCenterNode)->service->getNodes($this->serverName);
     }
 
     /**
-     * @param Request $request
+     * @param Node $serviceCenterNode
+     * @param string $serverName
+     * @param array $node
      * @return mixed
      * @throws ClientException
      * @author Mike <zhengzhe94@gmail.com>
      */
-    protected function invokeNodesHash(Request $request)
+    protected function remoteRegisterServer(Node $serviceCenterNode, string $serverName, array $node)
     {
-        return $this->client($request->arguments['node'])
-            ->useService([], $this->serviceCenterPrefix)
-            ->nodesHash($this->serverName);
+        return $this->client($serviceCenterNode)->service->registerServer($serverName, $node);
     }
 }

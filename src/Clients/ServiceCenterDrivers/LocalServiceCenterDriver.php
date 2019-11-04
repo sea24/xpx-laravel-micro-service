@@ -39,4 +39,17 @@ class LocalServiceCenterDriver extends ServiceCenterDriverAbstract
 
         return $nodes;
     }
+
+    /**
+     * 注册服务端
+     *
+     * @param string $serverName
+     * @param array $node
+     * @return bool
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function registerServer(string $serverName, array $node): bool
+    {
+        return true;
+    }
 }

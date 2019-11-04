@@ -59,24 +59,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | 服务中心服务前缀
-    |--------------------------------------------------------------------------
-    |
-    | 服务中心的服务在服务端注册时使用的前缀
-    |
-    */
-    'service_center_prefix' => env('MICRO_SERVICE_SERVICE_CENTER_PREFIX', 'service'),
-
-    /*
-    |--------------------------------------------------------------------------
     | 服务中心驱动
     |--------------------------------------------------------------------------
     |
-    | 支持的值 remote 和 local ，调试时可以使用 local 在配置文件中配置固定的服务节点列表
+    | 默认项支持的值 remote 和 local ，调试时可以使用 local 在配置文件中配置固定的服务节点列表
+    | 你可以根据业务需要替换自己的驱动实现
     |
     */
-    'service_center_driver' => env('MICRO_SERVICE_SERVICE_CENTER_DRIVER', 'remote'),
-
+    'service_center_driver' => [
+        // 默认使用
+        'default' => env('MICRO_SERVICE_SERVICE_CENTER_DRIVER_DEFAULT', 'local'),
+        // 本地驱动
+        'local' => \Gzoran\LaravelMicroService\Clients\ServiceCenterDrivers\LocalServiceCenterDriver::class,
+        // 远程驱动
+        'remote' => \Gzoran\LaravelMicroService\Clients\ServiceCenterDrivers\RemoteServiceCenterDriver::class,
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -127,7 +124,7 @@ return [
         'local' => [
             [
                 // 服务端名称
-                'server_name' => 'api_gateway_server',
+                'server_name' => 'demo_server',
                 // 节点列表
                 'nodes' => [
                     [
@@ -177,6 +174,30 @@ return [
     */
     'server_filters' => [
         \Gzoran\LaravelMicroService\Servers\Filters\EncryptFilter::class,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | 服务端注册
+    |--------------------------------------------------------------------------
+    |
+    | 你可以在这里配置向服务中心注册的服务端及其节点
+    |
+    */
+    'server_registers' => [
+        [
+            // 服务端名称
+            'server_name' => 'demo_server',
+            // 节点列表
+            'nodes' => [
+                [
+                    'scheme' => 'http', // 协议
+                    'host' => 'www.demo.com', // 主机地址
+                    'port' => 80, // 端口
+                    'path' => 'rpc/demo-server', // 路径
+                ],
+            ],
+        ],
     ],
 
     /*

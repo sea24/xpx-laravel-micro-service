@@ -25,7 +25,7 @@ interface ServiceCenterDriverContract
      * @return bool
      * @author Mike <zhengzhe94@gmail.com>
      */
-    public function isNodesUpdate() : bool ;
+    public function isNodesUpdate(): bool;
 
     /**
      * 获取节点列表
@@ -33,5 +33,15 @@ interface ServiceCenterDriverContract
      * @return array
      * @author Mike <zhengzhe94@gmail.com>
      */
-    public function getNodes() : array ;
+    public function getNodes(): array;
+
+    /**
+     * 注册服务端
+     *
+     * @param string $serverName
+     * @param array $node
+     * @return bool
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function registerServer(string $serverName, array $node): bool;
 }
