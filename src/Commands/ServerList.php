@@ -9,26 +9,26 @@ use Gzoran\LaravelMicroService\Clients\ServiceCenterDrivers\RemoteServiceCenterD
 use Illuminate\Console\Command;
 
 /**
- * 注册服务
- * Class RegisterServer
+ * 服务列表
+ * Class ServerList
  *
  * @package Gzoran\LaravelMicroService\Commands
  */
-class RegisterServer extends Command
+class ServerList extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'microservice:register_server';
+    protected $signature = 'microservice:server_list';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Register server and nodes to service center.';
+    protected $description = 'Show server list.';
 
     /**
      * 服务中心驱动
@@ -76,15 +76,12 @@ class RegisterServer extends Command
             $serverName = $serverRegister['server_name'];
             $url = '';
             foreach ($serverRegister['nodes'] as $node) {
-                $this->serviceCenterDriver->registerServer($serverName, $node);
                 $url .= trim("{$node['scheme']}://{$node['host']}:{$node['port']}/{$node['path']}", "/") . "\r\n";
             }
             $tableRow[$i][] = $serverName;
             $tableRow[$i][] = trim($url);
             $i++;
         }
-
-        $this->info('The server has been registered!');
 
         $this->table([
             'Server Name',

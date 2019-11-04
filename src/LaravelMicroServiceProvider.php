@@ -3,6 +3,7 @@
 namespace Gzoran\LaravelMicroService;
 
 use Gzoran\LaravelMicroService\Commands\RegisterServer;
+use Gzoran\LaravelMicroService\Commands\ServerList;
 use Illuminate\Support\ServiceProvider;
 
 class LaravelMicroServiceProvider extends ServiceProvider
@@ -36,6 +37,7 @@ class LaravelMicroServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 RegisterServer::class,
+                ServerList::class,
             ]);
         }
     }
