@@ -421,7 +421,7 @@ class DemoClient extends ClientAbstract
     public function userIndexFallback(\Exception $exception, Request $request)
     {
         // 你可以在这里返回已缓存的数据以保证调用的连贯性
-        return Cache::get('user.index);
+        return Cache::get('user.index');
     }
     
     ···
