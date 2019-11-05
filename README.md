@@ -62,7 +62,7 @@ php artisan vendor:publish --provider="Gzoran\LaravelMicroService\LaravelMicroSe
 
 ```
 
-- 当你使用 local 驱动时，则代表服务节点列表将在你的配置文件中读取，请根据项目环境保配置好服务端节点（server_nodes）配置项
+- 当你使用 local 驱动时，则代表服务端节点列表将在你的配置文件中读取，请根据项目环境配置好服务端节点（server_nodes）配置项
 
 ```php
 
