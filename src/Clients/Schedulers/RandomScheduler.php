@@ -19,7 +19,7 @@ class RandomScheduler extends SchedulerAbstract
      *
      * @var int
      */
-    protected $disableFailCounter = 3;
+    protected $disableFailCounter = 1;
 
     /**
      * 调度策略
