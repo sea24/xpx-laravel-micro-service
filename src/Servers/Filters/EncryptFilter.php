@@ -3,7 +3,6 @@
 namespace Gzoran\LaravelMicroService\Servers\Filters;
 
 use Gzoran\LaravelMicroService\Exceptions\TransportDecryptException;
-use Hprose\Filter;
 use Illuminate\Contracts\Encryption\DecryptException;
 use stdClass;
 
@@ -13,7 +12,7 @@ use stdClass;
  *
  * @package Gzoran\LaravelMicroService\Servers\Filters
  */
-class EncryptFilter implements Filter
+class EncryptFilter extends FilterAbstract
 {
     /**
      * @param $data
