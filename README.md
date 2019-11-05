@@ -2,8 +2,9 @@
 
 <h1 align="center"> Laravel 微服务拓展包 </h1>
 
-<p align="center"> 该模块为 Laravel 提供微服务支持 </p>
-
+> 概述：该模块为 Laravel 提供微服务支持，实现服务中间件、熔断器、远程调用器、调度器等，
+> 底层 RPC 使用 Hprose 实现，支持 HTTP 或 Socket 协议（推荐 HTTP），
+> 客户端与服务端传输使用对称加密以保证数据安全
 
 ## 安装
 
@@ -34,6 +35,8 @@ $ composer require gzoran/laravel-micro-service:dev-master
 ```
 
 ## 发布配置文件
+
+以下命令将会把配置文件 microservice.php 发布到 config 目录
 
 ```shell
 
@@ -127,9 +130,9 @@ php artisan vendor:publish --provider="Gzoran\LaravelMicroService\LaravelMicroSe
 
 ```
 
-## 服务端（Server）
+## 目录
 
-TODO
+- <a href="./docs/Server.md">服务端（Server）</a>
 
 ## License
 
