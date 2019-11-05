@@ -97,7 +97,7 @@ php artisan vendor:publish --provider="Gzoran\LaravelMicroService\LaravelMicroSe
 
 ```
 
-- 当你使用 remote 驱动时，则代表服务节点列表将在服务中心获取，请根据环境配置好服务中心节点（service_center_nodes）配置项
+- 当你使用 remote 驱动时，则代表服务端节点列表将在服务中心获取，请根据环境配置好服务中心节点（service_center_nodes）配置项
 
 ```php
 
@@ -127,7 +127,7 @@ php artisan vendor:publish --provider="Gzoran\LaravelMicroService\LaravelMicroSe
 
 ## 服务端（Server）
 
-
+TODO
 
 ## License
 
