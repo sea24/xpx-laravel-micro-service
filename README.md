@@ -133,6 +133,7 @@ php artisan vendor:publish --provider="Gzoran\LaravelMicroService\LaravelMicroSe
 
 - <a href="./docs/Server.md">服务端（Server）</a>
 - <a href="./docs/Client.md">客户端（Client）</a>
+- <a href="./docs/Command.md">命令行（Command）</a>
 
 ## License
 
