@@ -18,6 +18,13 @@ use stdClass;
 trait ThroughPipelines
 {
     /**
+     * 服务端名称
+     *
+     * @var string
+     */
+    protected $serverName;
+
+    /**
      * 中间件
      *
      * @var array
@@ -27,21 +34,21 @@ trait ThroughPipelines
     /**
      * 将原来的方法拆开两个，并加上管道以应用中间件
      *
-     * @param $name
+     * @param $serviceName
      * @param array $args
      * @param stdClass $context
      * @return Future|mixed|null
      * @author Mike <zhengzhe94@gmail.com>
      */
-    public function invokeHandler($name, array &$args, stdClass $context) {
+    public function invokeHandler($serviceName, array &$args, stdClass $context) {
         // 管道
-        $request = new Request($name, $args, $context);
+        $request = new Request($this->serverName, $serviceName, $args, $context);
         $result = app(Pipeline::class)
             ->send($request)
             ->through($this->middleware)
             ->then(function (Request $request) {
                 // 执行调用
-                return $this->invokeExecute($request->getName(), $request->args, $request->getContext());
+                return $this->invokeExecute($request->getServiceName(), $request->args, $request->getContext());
             });
 
         return $result;
@@ -82,6 +89,17 @@ trait ThroughPipelines
             if ($passContext) $args[] = $context;
             return $this->callService($args, $context);
         }
+    }
+
+    /**
+     * 设置服务端名称
+     *
+     * @param string $serverName
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function setServerName(string $serverName)
+    {
+        $this->serverName = $serverName;
     }
 
     /**

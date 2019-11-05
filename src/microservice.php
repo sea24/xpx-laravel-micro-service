@@ -161,7 +161,7 @@ return [
     |
     */
     'server_middleware' => [
-        // LogMiddleware::class
+        \Gzoran\LaravelMicroService\Servers\Middleware\ExceptionSerializeMiddleware::class,
     ],
 
     /*

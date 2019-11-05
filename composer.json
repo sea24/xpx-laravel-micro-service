@@ -10,7 +10,8 @@
     ],
     "require": {
         "laravel/framework": "~5.5",
-        "hprose/hprose": "^2.0"
+        "hprose/hprose": "^2.0",
+        "ext-json": "*"
     },
     "autoload": {
         "psr-4": {

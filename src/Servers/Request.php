@@ -13,11 +13,18 @@ use stdClass;
 class Request
 {
     /**
-     * 具体服务名称
+     * 服务端名称
      *
      * @var string
      */
-    protected $name;
+    protected $serverName;
+
+    /**
+     * 服务名称
+     *
+     * @var string
+     */
+    protected $serviceName;
 
     /**
      * 参数
@@ -35,13 +42,15 @@ class Request
 
     /**
      * Request constructor.
-     * @param string $name
+     * @param string $serverName
+     * @param string $serviceName
      * @param array $args
      * @param stdClass $context
      */
-    public function __construct(string $name, array &$args, stdClass $context)
+    public function __construct(string $serverName, string $serviceName, array &$args, stdClass $context)
     {
-        $this->name = $name;
+        $this->serverName = $serverName;
+        $this->serviceName = $serviceName;
         $this->args = $args;
         $this->context = $context;
     }
@@ -50,9 +59,18 @@ class Request
      * @return string
      * @author Mike <zhengzhe94@gmail.com>
      */
-    public function getName()
+    public function getServerName()
     {
-        return $this->name;
+        return $this->serverName;
+    }
+
+    /**
+     * @return string
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function getServiceName()
+    {
+        return $this->serviceName;
     }
 
     /**

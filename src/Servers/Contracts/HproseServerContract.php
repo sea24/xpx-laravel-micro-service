@@ -13,6 +13,15 @@ use Hprose\Filter;
 interface HproseServerContract
 {
     /**
+     * 设置服务端名称
+     *
+     * @param string $serverName
+     * @return mixed
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function setServerName(string $serverName);
+
+    /**
      * 设置中间件
      *
      * @param array $middleware

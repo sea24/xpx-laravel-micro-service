@@ -64,6 +64,8 @@ abstract class ServerAbstract implements ServerContract
     {
         $this->server = $this->server();
 
+        $this->server->setServerName($this->serverName);
+
         $this->register();
 
         foreach ($this->kernel->getFilters() as $filter) {
