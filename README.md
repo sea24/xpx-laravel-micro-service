@@ -1,8 +1,7 @@
-[TOC]
 
 <h1 align="center"> Laravel 微服务拓展包 </h1>
 
-> 概述：该模块为 Laravel 提供微服务支持，实现服务中间件、熔断器、远程调用器、调度器等，
+> 该模块为 Laravel 提供微服务支持，实现服务中间件、熔断器、远程调用器、调度器等，
 > 底层 RPC 使用 Hprose 实现，支持 HTTP 或 Socket 协议（推荐 HTTP），
 > 客户端与服务端传输使用对称加密以保证数据安全
 
@@ -48,7 +47,7 @@ php artisan vendor:publish --provider="Gzoran\LaravelMicroService\LaravelMicroSe
 
 > 只有设置服务中心之后，你的服务才能正确发布到服务中心，客户端才能正确的找到服务端节点
 
-- 设置服务中心驱动
+- 设置服务中心驱动默认使用配置项 default
 
 ```php
 
