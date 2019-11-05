@@ -152,6 +152,14 @@ class DemoServer extends Server
 
 ```
 
+- 将服务端注册到服务中心（service center）
+
+```shell
+
+php artisan microservice:register_server
+
+```
+
 ### 服务端中间件（Server Middleware）
 
 > 服务端中间件（server middleware）底层使用 Laravel Pipeline 实现，提供了对服务端（server）的输入输出处理，类似 Laravel 的中间件。
