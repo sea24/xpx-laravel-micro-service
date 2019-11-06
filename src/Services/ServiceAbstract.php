@@ -12,15 +12,5 @@ use Gzoran\LaravelMicroService\Services\Contracts\ServiceContract;
  */
 abstract class ServiceAbstract implements ServiceContract
 {
-    /**
-     * @return array|mixed
-     * @author Mike <zhengzhe94@gmail.com>
-     */
-    public function ping()
-    {
-        return [
-            'message' => 'ok',
-            'time' => time(),
-        ];
-    }
+    //
 }

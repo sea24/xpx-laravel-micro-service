@@ -10,9 +10,5 @@ namespace Gzoran\LaravelMicroService\Services\Contracts;
  */
 interface ServiceContract
 {
-    /**
-     * @return mixed
-     * @author Mike <zhengzhe94@gmail.com>
-     */
-    public function ping();
+    //
 }
