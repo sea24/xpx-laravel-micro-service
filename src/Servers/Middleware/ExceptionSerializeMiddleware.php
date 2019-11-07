@@ -4,6 +4,7 @@ namespace Gzoran\LaravelMicroService\Servers\Middleware;
 
 use Closure;
 use Gzoran\LaravelMicroService\Servers\Request;
+use Illuminate\Validation\ValidationException;
 
 /**
  * 异常序列化中间件
@@ -31,17 +32,27 @@ class ExceptionSerializeMiddleware extends MiddlewareAbstract
                 throw new \Exception($exception->getMessage());
             }
 
-            throw new \Exception(\json_encode([
+            $message =[
                 'exception' => get_class($exception),
                 'message' => $exception->getMessage(),
                 'code' => $exception->getCode(),
+                'errors' => [],
                 'file' => $exception->getFile(),
                 'line' => $exception->getLine(),
                 'from' => [
                     'server_name' => $request->getServerName(),
                     'service_name' => $request->getServiceName(),
                 ],
-            ]));
+            ];
+
+            if (get_class($exception) == ValidationException::class) {
+                /**
+                 * @var ValidationException $exception
+                 */
+                $message['errors'] = $exception->errors();
+            }
+
+            throw new \Exception(\json_encode($message));
         }
 
         return $response;
