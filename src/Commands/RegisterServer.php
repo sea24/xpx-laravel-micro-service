@@ -75,9 +75,9 @@ class RegisterServer extends Command
         $i = 0;
         foreach ($serverRegisters as $serverRegister) {
             $serverName = $serverRegister['server_name'];
+            $this->serviceCenterDriver->registerServer($serverName, $serverRegister['nodes']);
             $url = '';
             foreach ($serverRegister['nodes'] as $node) {
-                $this->serviceCenterDriver->registerServer($serverName, $node);
                 $url .= trim("{$node['scheme']}://{$node['host']}:{$node['port']}/{$node['path']}", "/") . "\r\n";
             }
             $tableRow[$i][] = $serverName;

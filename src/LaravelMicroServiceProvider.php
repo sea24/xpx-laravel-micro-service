@@ -5,7 +5,7 @@ namespace Gzoran\LaravelMicroService;
 use Gzoran\LaravelMicroService\Commands\LogoutServer;
 use Gzoran\LaravelMicroService\Commands\RegisterServer;
 use Gzoran\LaravelMicroService\Commands\ReportServer;
-use Gzoran\LaravelMicroService\Commands\ServerList;
+use Gzoran\LaravelMicroService\Commands\ServersList;
 use Illuminate\Support\ServiceProvider;
 
 class LaravelMicroServiceProvider extends ServiceProvider
@@ -41,7 +41,7 @@ class LaravelMicroServiceProvider extends ServiceProvider
                 RegisterServer::class,
                 LogoutServer::class,
                 ReportServer::class,
-                ServerList::class,
+                ServersList::class,
             ]);
         }
     }

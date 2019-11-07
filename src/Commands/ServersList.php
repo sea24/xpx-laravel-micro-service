@@ -14,21 +14,21 @@ use Illuminate\Console\Command;
  *
  * @package Gzoran\LaravelMicroService\Commands
  */
-class ServerList extends Command
+class ServersList extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'microservice:server_list';
+    protected $signature = 'microservice:servers_list';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Show server list.';
+    protected $description = 'Show servers list.';
 
     /**
      * 服务中心驱动
