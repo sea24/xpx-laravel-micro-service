@@ -21,7 +21,7 @@ git clone git@xxx
 
 ```shell
 
-composer config repositories.weather path ../../../laravel-micro-service
+composer config repositories.laravel-micro-service path ../../../laravel-micro-service
 
 ```
 
