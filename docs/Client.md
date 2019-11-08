@@ -706,7 +706,26 @@ class DemoClient extends ClientAbstract
 
 ```
 
-你可以根据结构化的 json 数据追踪和定位问题
+> 你可以根据结构化的 json 数据追踪和定位问题
+
+- RemoteInvokeException 提供的方法
+
+```php
+
+// 获取消息数组
+RemoteInvokeException::getMessageArray
+// 获取远程异常消息
+RemoteInvokeException::getRemoteMessage
+// 获取远程异常码
+RemoteInvokeException::getRemoteCode
+// 获取远程异常文件
+RemoteInvokeException::getRemoteFile
+// 获取远程异常行号
+RemoteInvokeException::getRemoteLine
+// 获取远程异常来源
+RemoteInvokeException::getRemoteFrom
+
+```
 
 #### 注意事项
 
