@@ -1,6 +1,6 @@
 <?php
 
-namespace Gzoran\LaravelMicroService\Servers\Hprose;
+namespace Gzoran\LaravelMicroService\Servers\Hprose\Traits;
 
 use Gzoran\LaravelMicroService\Servers\Request;
 use Exception;
@@ -15,7 +15,7 @@ use stdClass;
  *
  * @package Gzoran\LaravelMicroService\Servers\Hprose
  */
-trait ThroughPipelines
+trait ThroughPipelinesTrait
 {
     /**
      * 服务端名称
