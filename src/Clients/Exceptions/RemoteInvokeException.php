@@ -13,6 +13,13 @@ use Throwable;
 class RemoteInvokeException extends ClientException
 {
     /**
+     * 消息数组
+     *
+     * @var array
+     */
+    protected $messageArray;
+
+    /**
      * RemoteInvokeException constructor.
      *
      * @param string $message
@@ -22,5 +29,18 @@ class RemoteInvokeException extends ClientException
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
+
+        $this->messageArray = \json_decode($this->message, true) ?? [];
+    }
+
+    /**
+     * 获取消息数组
+     *
+     * @return array
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function getMessageArray()
+    {
+        return $this->messageArray;
     }
 }

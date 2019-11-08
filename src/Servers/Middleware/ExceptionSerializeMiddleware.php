@@ -45,11 +45,11 @@ class ExceptionSerializeMiddleware extends MiddlewareAbstract
                 ],
             ];
 
-            if (get_class($exception) == ValidationException::class) {
-                /**
-                 * @var ValidationException $exception
-                 */
-                $message['errors'] = $exception->errors();
+            if (method_exists($exception, 'errors')) {
+                $errors = $exception->errors();
+                if (is_string($errors) || is_array($errors)) {
+                    $message['errors'] = $exception->errors();
+                }
             }
 
             throw new \Exception(\json_encode($message));
