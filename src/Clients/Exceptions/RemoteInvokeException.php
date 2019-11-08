@@ -2,6 +2,7 @@
 
 namespace Gzoran\LaravelMicroService\Clients\Exceptions;
 
+use Illuminate\Support\Arr;
 use Throwable;
 
 /**
@@ -42,5 +43,50 @@ class RemoteInvokeException extends ClientException
     public function getMessageArray()
     {
         return $this->messageArray;
+    }
+
+    /**
+     * @return mixed
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function getRemoteMessage()
+    {
+        return Arr::get($this->messageArray, 'message');
+    }
+
+    /**
+     * @return mixed
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function getRemoteCode()
+    {
+        return Arr::get($this->messageArray, 'code');
+    }
+
+    /**
+     * @return mixed
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function getRemoteFile()
+    {
+        return Arr::get($this->messageArray, 'file');
+    }
+
+    /**
+     * @return mixed
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function getRemoteLine()
+    {
+        return Arr::get($this->messageArray, 'line');
+    }
+
+    /**
+     * @return mixed
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function getRemoteFrom()
+    {
+        return Arr::get($this->messageArray, 'from');
     }
 }
