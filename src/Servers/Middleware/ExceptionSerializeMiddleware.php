@@ -4,7 +4,6 @@ namespace Gzoran\LaravelMicroService\Servers\Middleware;
 
 use Closure;
 use Gzoran\LaravelMicroService\Servers\Request;
-use Illuminate\Validation\ValidationException;
 
 /**
  * 异常序列化中间件
