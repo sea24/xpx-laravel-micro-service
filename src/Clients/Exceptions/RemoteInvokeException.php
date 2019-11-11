@@ -98,4 +98,13 @@ class RemoteInvokeException extends ClientException
     {
         return Arr::get($this->messageArray, 'from');
     }
+
+    /**
+     * @return mixed
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function getRemoteException()
+    {
+        return Arr::get($this->messageArray, 'exception');
+    }
 }
