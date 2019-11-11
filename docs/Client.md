@@ -718,6 +718,8 @@ RemoteInvokeException::getMessageArray
 RemoteInvokeException::getRemoteMessage
 // 获取远程异常码
 RemoteInvokeException::getRemoteCode
+// 获取远程异常详情
+RemoteInvokeException::getRemoteErrors
 // 获取远程异常文件
 RemoteInvokeException::getRemoteFile
 // 获取远程异常行号
