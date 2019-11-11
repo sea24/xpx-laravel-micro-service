@@ -726,6 +726,8 @@ RemoteInvokeException::getRemoteFile
 RemoteInvokeException::getRemoteLine
 // 获取远程异常来源
 RemoteInvokeException::getRemoteFrom
+// 获取远程异常类
+RemoteInvokeException::getRemoteException
 
 ```
 
