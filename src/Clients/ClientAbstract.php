@@ -93,6 +93,13 @@ abstract class ClientAbstract implements ClientContract
     protected $failbackPostfix = 'Fallback';
 
     /**
+     * 过滤器
+     *
+     * @var array
+     */
+    protected $filters = [];
+
+    /**
      * @var Kernel
      */
     protected $kernel;
@@ -175,8 +182,9 @@ abstract class ClientAbstract implements ClientContract
      */
     public function remoteInvoke(Request $request)
     {
+        $filters = array_merge($this->filters, $this->kernel->getFilters());
         $this->remote->setScheduler($this->scheduler)
-            ->setFilters($this->kernel->getFilters());
+            ->setFilters($filters);
 
         // 若客户端或方法配置了熔断器, 则使用熔断器执行
         $circuitBreakerClass = null;

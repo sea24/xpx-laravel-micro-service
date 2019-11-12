@@ -42,6 +42,13 @@ abstract class ServerAbstract implements ServerContract
     ];
 
     /**
+     * 过滤器
+     *
+     * @var array
+     */
+    protected $filters = [];
+
+    /**
      * @var Kernel
      */
     protected $kernel;
@@ -68,7 +75,8 @@ abstract class ServerAbstract implements ServerContract
 
         $this->register();
 
-        foreach ($this->kernel->getFilters() as $filter) {
+        $filters = array_merge($this->filters, $this->kernel->getFilters());
+        foreach ($filters as $filter) {
             $this->server->addFilter(new $filter);
         }
 
