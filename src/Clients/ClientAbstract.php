@@ -121,8 +121,20 @@ abstract class ClientAbstract implements ClientContract
             throw new ClientException('Scheduler has not been set.');
         }
         $this->scheduler = new $scheduler;
+        $this->serverName = $this->serverName();
         $this->scheduler->serverName($this->serverName);
         $this->scheduler->registerNodes();
+    }
+
+    /**
+     * 服务端名称
+     *
+     * @return string
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    protected function serverName()
+    {
+        return $this->serverName;
     }
 
     /**

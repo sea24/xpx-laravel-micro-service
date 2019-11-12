@@ -59,6 +59,18 @@ abstract class ServerAbstract implements ServerContract
     public function __construct()
     {
         $this->kernel = new Kernel();
+        $this->serverName = $this->serverName();
+    }
+
+    /**
+     * 服务端名称
+     *
+     * @return string
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    protected function serverName()
+    {
+        return $this->serverName;
     }
 
     /**
