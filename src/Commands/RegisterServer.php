@@ -6,7 +6,10 @@ use Gzoran\LaravelMicroService\Clients\Contracts\ServiceCenterDriverContract;
 use Gzoran\LaravelMicroService\Clients\Exceptions\ClientException;
 use Gzoran\LaravelMicroService\Clients\ServiceCenterDrivers\LocalServiceCenterDriver;
 use Gzoran\LaravelMicroService\Clients\ServiceCenterDrivers\RemoteServiceCenterDriver;
+use Gzoran\LaravelMicroService\Exceptions\MicroServiceException;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 /**
  * 注册服务
@@ -70,6 +73,15 @@ class RegisterServer extends Command
         $this->serviceCenterDriver = new $driverClass;
 
         $serverRegisters = config('microservice.server_registers');
+
+        Validator::make($serverRegisters, [
+            'server_name' => 'required|string|min:1',
+            'nodes' => 'required|array|min:1',
+            'nodes.*.scheme' => 'required|string|min:1|in:http,https,tcp',
+            'nodes.*.host' => 'required|array|between,0,65535',
+            'nodes.*.port' => 'required|int|min:1',
+            'nodes.*.path' => 'string|min:1',
+        ])->validate();
 
         $tableRow = [];
         $i = 0;
