@@ -55,6 +55,7 @@ class RegisterServer extends Command
      *
      * @return mixed
      * @throws ClientException
+     * @throws MicroServiceException
      */
     public function handle()
     {
@@ -84,7 +85,7 @@ class RegisterServer extends Command
                 'nodes.*.path' => 'string|min:1',
             ])->validate();
         } catch (ValidationException $exception) {
-            throw new MicroServiceException(\json_encode($exception->errors()));
+            throw new MicroServiceException(\json_encode($exception->errors(), JSON_UNESCAPED_UNICODE));
         }
 
         $tableRow = [];
