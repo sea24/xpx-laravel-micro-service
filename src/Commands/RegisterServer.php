@@ -76,13 +76,16 @@ class RegisterServer extends Command
         $serverRegisters = config('microservice.server_registers');
 
         try {
-            Validator::make($serverRegisters, [
-                'server_name' => 'required|string|min:1',
-                'nodes' => 'required|array|min:1',
-                'nodes.*.scheme' => 'required|string|min:1|in:http,https,tcp',
-                'nodes.*.host' => 'required|array|between,0,65535',
-                'nodes.*.port' => 'required|int|min:1',
-                'nodes.*.path' => 'string|min:1',
+            Validator::make([
+                'server_registers' => $serverRegisters,
+            ], [
+                'server_registers.*' => 'required|array',
+                'server_registers.*.server_name' => 'required|string|min:1',
+                'server_registers.*.nodes' => 'required|array|min:1',
+                'server_registers.*.nodes.*.scheme' => 'required|string|min:1|in:http,https,tcp',
+                'server_registers.*.nodes.*.host' => 'required|string|between:0,65535',
+                'server_registers.*.nodes.*.port' => 'required|int|min:1',
+                'server_registers.*.nodes.*.path' => 'string|min:1',
             ])->validate();
         } catch (ValidationException $exception) {
             throw new MicroServiceException(\json_encode($exception->errors(), JSON_UNESCAPED_UNICODE));
