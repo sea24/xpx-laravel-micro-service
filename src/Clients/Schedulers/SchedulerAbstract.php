@@ -133,7 +133,9 @@ abstract class SchedulerAbstract implements SchedulerContract
         } else {
             $nodes = $this->getNodes();
         }
-        Cache::put($cacheKey, $nodes, $this->nodesCacheExpire);
+        if ($this->nodesCacheEnable) {
+            Cache::put($cacheKey, $nodes, $this->nodesCacheExpire);
+        }
 
         foreach ($nodes as $node) {
             $this->nodes[] = new Node(
