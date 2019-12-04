@@ -81,6 +81,33 @@ abstract class ServerAbstract implements ServerContract
      */
     public function start()
     {
+        if (!file_get_contents('php://input')) {
+            echo <<<TEXT
+　　　┏┓ 　　┏┓+ +
+ 　┏┛┻━━━┛┻┓ + +
+ 　┃　　　　　　　┃ 　
+ 　┃　　　━　　　┃ ++ + + +
+  ████━████ ┃+
+ 　┃　　　　　　　┃ +
+ 　┃　　　┻　　　┃
+ 　┃　　　　　　　┃ + +
+ 　┗━┓　　　┏━┛
+ 　　　┃　　　┃　　　　　　　　　　　
+ 　　　┃　　　┃ + + + +
+ 　　　┃　　　┃
+ 　　　┃　{$this->serverName} as your service!
+ 　　　┃　　　┃    　　
+ 　　　┃　　　┃　　+　　　　　　　　　
+ 　　　┃　 　　┗━━━┓ + +
+ 　　　┃ 　　　　　　　┣┓
+ 　　　┃ 　　　　　　　┏┛
+ 　　　┗┓┓┏━┳┓┏┛ + + + +
+ 　　　　┃┫┫　┃┫┫
+ 　　　　┗┻┛　┗┻┛+ + + +
+TEXT;
+;
+            return;
+        }
         $this->server = $this->server();
 
         $this->server->setServerName($this->serverName);
