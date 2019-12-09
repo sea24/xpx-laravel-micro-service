@@ -44,11 +44,11 @@ class LocalServiceCenterDriver extends ServiceCenterDriverAbstract
      * 注册服务端
      *
      * @param string $serverName
-     * @param array $node
+     * @param array $nodes
      * @return bool
      * @author Mike <zhengzhe94@gmail.com>
      */
-    public function registerServer(string $serverName, array $node): bool
+    public function registerServer(string $serverName, array $nodes): bool
     {
         return true;
     }
@@ -57,11 +57,11 @@ class LocalServiceCenterDriver extends ServiceCenterDriverAbstract
      * 注销服务端
      *
      * @param string $serverName
-     * @param array $node
+     * @param array $nodes
      * @return bool
      * @author Mike <zhengzhe94@gmail.com>
      */
-    public function logoutServer(string $serverName, array $node): bool
+    public function logoutServer(string $serverName, array $nodes): bool
     {
         return true;
     }
