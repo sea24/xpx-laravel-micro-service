@@ -113,15 +113,18 @@ abstract class ClientAbstract implements ClientContract
         $this->kernel = new Kernel();
 
         if (!$remote = $this->remote()) {
-            throw new ClientException('Remote has not been set.');
+            throw new ClientException('Remote has not been set. Client:' . get_class($this));
         }
         $this->remote = new $remote;
 
         if (!$scheduler = $this->scheduler()) {
-            throw new ClientException('Scheduler has not been set.');
+            throw new ClientException('Scheduler has not been set. Client:' . get_class($this));
         }
         $this->scheduler = new $scheduler;
         $this->serverName = $this->serverName();
+        if ($this->serverName === null) {
+            throw new ClientException('Server name has not been set. Client:' . get_class($this));
+        }
         $this->scheduler->serverName($this->serverName);
         $this->scheduler->registerNodes();
     }
