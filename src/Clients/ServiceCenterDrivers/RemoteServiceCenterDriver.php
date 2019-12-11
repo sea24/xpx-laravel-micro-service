@@ -152,7 +152,7 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
         });
 
         if ($nodes->isEmpty()) {
-            throw new EnableNodeNotFoundException('There are no enable node in list.');
+            throw new EnableNodeNotFoundException('There are no enable service center node in list.');
         }
 
         return $nodes->random();

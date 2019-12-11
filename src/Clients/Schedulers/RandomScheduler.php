@@ -45,7 +45,7 @@ class RandomScheduler extends SchedulerAbstract
         });
 
         if ($nodes->isEmpty()) {
-            throw new EnableNodeNotFoundException("The {$this->serverName} has no enable node in list.");
+            throw new EnableNodeNotFoundException("The [{$this->serverName}] has no enable node in list.");
         }
 
         return $nodes->random();
