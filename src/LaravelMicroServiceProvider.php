@@ -19,7 +19,7 @@ class LaravelMicroServiceProvider extends ServiceProvider
     {
         // 注册配置
         $this->mergeConfigFrom(
-            __DIR__ . '/microservice.php', 'microservice'
+            __DIR__ . '../config/microservice.php', 'microservice'
         );
     }
 
@@ -32,7 +32,7 @@ class LaravelMicroServiceProvider extends ServiceProvider
     {
         // 发布配置
         $this->publishes([
-            __DIR__ . '/microservice.php' => config_path('microservice.php'),
+            __DIR__ . '../config/microservice.php' => config_path('microservice.php'),
         ]);
 
         // 注册命令
