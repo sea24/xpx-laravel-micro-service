@@ -173,6 +173,7 @@ return [
     |
     */
     'server_filters' => [
+        \Gzoran\LaravelMicroService\Servers\Filters\JsonRpcFilter::class,
         \Gzoran\LaravelMicroService\Servers\Filters\EncryptFilter::class,
     ],
 
@@ -233,6 +234,7 @@ return [
     |
     */
     'client_filters' => [
+        \Gzoran\LaravelMicroService\Clients\Filters\JsonRpcFilter::class,
         \Gzoran\LaravelMicroService\Clients\Filters\EncryptFilter::class,
     ],
 ];
