@@ -27,6 +27,14 @@ class Request
     public static $tempServerName;
 
     /**
+     * 组 id
+     * 用以将一个请求中的一系列服务调用归为一组
+     *
+     * @var string
+     */
+    public static $groupId;
+
+    /**
      * 服务类
      *
      * @var string

@@ -106,6 +106,7 @@ class TracerFilter extends FilterAbstract
 
         // 追踪标识
         $data['trace'] = [
+            'group_id' => Request::$groupId,
             'parent_id' => ServerTracerFilter::$requestParentId,
             'server_name' => Request::$tempServerName,
             'method' => $data['method'],
