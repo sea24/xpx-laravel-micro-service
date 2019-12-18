@@ -64,4 +64,22 @@ interface ServiceCenterDriverContract
      * @author Mike <zhengzhe94@gmail.com>
      */
     public function reportServer(string $serverName, array $node): bool;
+
+    /**
+     * 跟踪请求
+     *
+     * @param string $jsonRpc
+     * @return bool
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function traceRequest(string $jsonRpc): bool;
+
+    /**
+     * 跟踪响应
+     *
+     * @param string $jsonRpc
+     * @return bool
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function traceResponse(string $jsonRpc): bool;
 }

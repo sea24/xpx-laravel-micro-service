@@ -174,6 +174,7 @@ return [
     */
     'server_filters' => [
         \Gzoran\LaravelMicroService\Servers\Filters\JsonRpcFilter::class,
+        \Gzoran\LaravelMicroService\Servers\Filters\TracerFilter::class,
         \Gzoran\LaravelMicroService\Servers\Filters\EncryptFilter::class,
     ],
 
@@ -235,6 +236,24 @@ return [
     */
     'client_filters' => [
         \Gzoran\LaravelMicroService\Clients\Filters\JsonRpcFilter::class,
+        \Gzoran\LaravelMicroService\Clients\Filters\TracerFilter::class,
         \Gzoran\LaravelMicroService\Clients\Filters\EncryptFilter::class,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | 服务追踪
+    |--------------------------------------------------------------------------
+    |
+    | 服务追踪能记录服务调用过程、请求时间与响应时间等，以帮助开发者清晰了解系统调用栈
+    |
+    */
+    'tracer' => [
+        // 启用状态
+        'enable' => env('MICRO_SERVICE_TRACER_ENABLE', false),
+        // 排除追踪的服务（服务端名称：方法）
+        'except' => [
+            'service_center_server:trace*',
+        ],
     ],
 ];

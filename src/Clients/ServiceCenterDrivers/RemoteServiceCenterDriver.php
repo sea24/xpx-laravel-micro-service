@@ -347,4 +347,58 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
     {
         return $this->client($serviceCenterNode)->service->reportServer($serverName, $node);
     }
+
+    /**
+     * 跟踪请求
+     *
+     * @param string $jsonRpc
+     * @return bool
+     * @throws EnableNodeNotFoundException
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function traceRequest(string $jsonRpc): bool
+    {
+        $serviceCenterNode = $this->getServiceCenterNode();
+
+        return $this->invokeThroughPipelines('remoteTraceRequest', $serviceCenterNode, $jsonRpc);
+    }
+
+    /**
+     * @param Node $serviceCenterNode
+     * @param string $jsonRpc
+     * @return mixed
+     * @throws ClientException
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    protected function remoteTraceRequest(Node $serviceCenterNode, string $jsonRpc)
+    {
+        return $this->client($serviceCenterNode)->trace->traceRequest($jsonRpc);
+    }
+
+    /**
+     * 跟踪响应
+     *
+     * @param string $jsonRpc
+     * @return bool
+     * @throws EnableNodeNotFoundException
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function traceResponse(string $jsonRpc): bool
+    {
+        $serviceCenterNode = $this->getServiceCenterNode();
+
+        return $this->invokeThroughPipelines('remoteTraceResponse', $serviceCenterNode, $jsonRpc);
+    }
+
+    /**
+     * @param Node $serviceCenterNode
+     * @param string $jsonRpc
+     * @return mixed
+     * @throws ClientException
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    protected function remoteTraceResponse(Node $serviceCenterNode, string $jsonRpc)
+    {
+        return $this->client($serviceCenterNode)->trace->traceResponse($jsonRpc);
+    }
 }

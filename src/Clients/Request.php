@@ -18,6 +18,15 @@ class Request
     protected $serverName;
 
     /**
+     * 服务端名称
+     * 静态属性用以在任何地方调用
+     * 临时值会在调用发生时变更
+     *
+     * @var string
+     */
+    public static $tempServerName;
+
+    /**
      * 服务类
      *
      * @var string
@@ -57,6 +66,7 @@ class Request
     public function __construct(string $serverName, string $class, string $method, array $arguments, int $retry = 0)
     {
         $this->serverName = $serverName;
+        static::$tempServerName = $this->serverName;
         $this->class = $class;
         $this->method = $method;
         $this->arguments = $arguments;

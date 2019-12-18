@@ -78,4 +78,28 @@ class LocalServiceCenterDriver extends ServiceCenterDriverAbstract
     {
         return true;
     }
+
+    /**
+     * 跟踪请求
+     *
+     * @param string $jsonRpc
+     * @return bool
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function traceRequest(string $jsonRpc): bool
+    {
+        return true;
+    }
+
+    /**
+     * 跟踪响应
+     *
+     * @param string $jsonRpc
+     * @return bool
+     * @author Mike <zhengzhe94@gmail.com>
+     */
+    public function traceResponse(string $jsonRpc): bool
+    {
+        return true;
+    }
 }
