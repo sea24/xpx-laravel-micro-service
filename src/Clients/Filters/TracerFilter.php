@@ -78,12 +78,14 @@ class TracerFilter extends FilterAbstract
             return $data;
         }
 
-        if (isset($data['trace'])) {
-            // 计算响应时间
-            $data['trace']['responded_at'] = date('Y-m-d H:i:s');
-            $data['trace']['response_millisecond'] = $this->millisecond();
-            $data['trace']['response_time'] = $data['trace']['response_millisecond'] - $data['trace']['request_millisecond'];
+        if (!isset($data['trace'])) {
+            return \json_encode($data);
         }
+
+        // 计算响应时间
+        $data['trace']['responded_at'] = date('Y-m-d H:i:s');
+        $data['trace']['response_millisecond'] = $this->millisecond();
+        $data['trace']['response_time'] = $data['trace']['response_millisecond'] - $data['trace']['request_millisecond'];
 
         $data = \json_encode($data);
 
