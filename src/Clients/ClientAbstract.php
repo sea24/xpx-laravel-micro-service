@@ -115,6 +115,7 @@ abstract class ClientAbstract implements ClientContract
         if (!$remote = $this->remote()) {
             throw new ClientException('Remote has not been set. Client:' . get_class($this));
         }
+    
         $this->remote = new $remote;
 
         if (!$scheduler = $this->scheduler()) {
@@ -125,6 +126,7 @@ abstract class ClientAbstract implements ClientContract
         if ($this->serverName === null) {
             throw new ClientException('Server name has not been set. Client:' . get_class($this));
         }
+
         $this->scheduler->serverName($this->serverName);
         $this->scheduler->registerNodes();
     }
@@ -197,6 +199,7 @@ abstract class ClientAbstract implements ClientContract
      */
     public function remoteInvoke(Request $request)
     {
+
         $filters = array_merge($this->filters, $this->kernel->getFilters());
         $this->remote->setScheduler($this->scheduler)
             ->setFilters($filters);
@@ -229,7 +232,6 @@ abstract class ClientAbstract implements ClientContract
             $result = $circuitBreaker->process(function () use ($request) {
                 return $this->remote->invoke($request);
             }, $failback);
-
             return $result;
         }
 

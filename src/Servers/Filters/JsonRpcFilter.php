@@ -29,7 +29,7 @@ class JsonRpcFilter extends FilterAbstract
     {
         $requests = json_decode($data, true);
 
-        if ($data{0} === '{') {
+        if ($data[0] === '{') {
             $requests = [$requests];
         }
 

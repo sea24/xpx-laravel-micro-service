@@ -108,6 +108,7 @@ TEXT;
 ;
             return;
         }
+
         $this->server = $this->server();
 
         $this->server->setServerName($this->serverName);
@@ -115,13 +116,15 @@ TEXT;
         $this->register();
 
         $filters = array_merge($this->filters, $this->kernel->getFilters());
-        foreach ($filters as $filter) {
-            $this->server->addFilter(new $filter);
-        }
+        // foreach ($filters as $filter) {
+        //     $this->server->addFilter(new $filter);
+        // }
+        $this->server->addFilter(new \Gzoran\LaravelMicroService\Servers\Filters\Filter());
 
         $middleware = array_merge($this->kernel->getMiddleware(), $this->middleware);
-        $this->server->setMiddleware($middleware);
 
+        $this->server->onSendError=function($err){info($err);};//调试用 打印错误到日志里面
+        $this->server->setMiddleware($middleware);
         $this->server->start();
     }
 
@@ -132,6 +135,7 @@ TEXT;
      */
     protected function register()
     {
+       
         $services = array_merge($this->kernel->getServices(), $this->services);
 
         foreach ($services as $prefix => $service) {

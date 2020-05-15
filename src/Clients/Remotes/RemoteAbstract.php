@@ -75,22 +75,23 @@ abstract class RemoteAbstract implements RemoteContract
      */
     public function client() : Client
     {
+
         if (!$this->client) {
             $scheme = $this->node->getScheme();
             if (!in_array($scheme, ['tcp', 'http', 'https'])) {
                 throw new ClientException('The scheme is not support:' . $scheme);
             }
+
             $url = trim("{$scheme}://{$this->node->getHost()}:{$this->node->getPort()}/{$this->node->getPath()}", '/');
             // 建立同步客户
             $this->client = Client::create($url, false);
-
             foreach ($this->filters as $filter) {
                 $this->client->addFilter(new $filter);
             }
 
             $this->client->timeout = $this->timeout;
         }
-
+        
         return $this->client;
     }
 
@@ -104,9 +105,10 @@ abstract class RemoteAbstract implements RemoteContract
      */
     public function invoke(Request $request)
     {
+        
         $this->node = $this->scheduler->getNode();
-        $method = $request->getMethod();
 
+        $method = $request->getMethod();
         try {
             return $this->$method(...$request->arguments);
         } catch (\Exception $exception) {
@@ -120,7 +122,6 @@ abstract class RemoteAbstract implements RemoteContract
                 // 重新来一次
                 return $this->invoke($request);
             }
-
             throw new RemoteInvokeException($exception->getMessage());
         }
     }

@@ -107,6 +107,7 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
                 Arr::get($node, 'path')
             );
         }
+
     }
 
     /**
@@ -124,10 +125,12 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
             throw new ClientException('The scheme is not support:' . $scheme);
         }
         $url = trim("{$scheme}://{$node->getHost()}:{$node->getPort()}/{$node->getPath()}", '/');
+
         // 建立同步客户
         /**
          * @var Client $client
          */
+
         $client = Client::create($url, false);
         // 注册过滤器
         foreach ($this->filters as $filter) {
@@ -147,7 +150,9 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
      */
     protected function getServiceCenterNode()
     {
+
         $nodes = collect($this->serviceCenterNodes)->filter(function (Node $node) {
+
             return $node->getStatus() == true;
         });
 
@@ -173,6 +178,7 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
             $hash = $this->invokeThroughPipelines('remoteNodesHash', $serviceCenterNode);
             // 对比缓存中的哈希
             $cacheKey = $this->serverName . '_' . $this->nodesCacheKey . '_hash';
+            
             if (Cache::get($cacheKey) == $hash) {
                 return false;
             }
@@ -228,8 +234,9 @@ class RemoteServiceCenterDriver extends ServiceCenterDriverAbstract
      */
     public function registerServer(string $serverName, array $nodes): bool
     {
-        $serviceCenterNode = $this->getServiceCenterNode();
 
+        $serviceCenterNode = $this->getServiceCenterNode();
+        
         return $this->invokeThroughPipelines('remoteRegisterServer', $serviceCenterNode, $serverName, $nodes);
     }
 

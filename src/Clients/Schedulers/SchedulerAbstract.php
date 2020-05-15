@@ -125,6 +125,7 @@ abstract class SchedulerAbstract implements SchedulerContract
      */
     public function registerNodes($cacheable = true)
     {
+
         $cacheKey = $this->serverName . '_' . $this->nodesCacheKey;
         if ($cacheable && $this->nodesCacheEnable && !$this->isNodesUpdate()) {
             if (!$nodes = Cache::get($cacheKey)) {
@@ -136,7 +137,7 @@ abstract class SchedulerAbstract implements SchedulerContract
         if ($this->nodesCacheEnable) {
             Cache::put($cacheKey, $nodes, $this->nodesCacheExpire);
         }
-
+        
         foreach ($nodes as $node) {
             $this->nodes[] = new Node(
                 Arr::get($node, 'scheme'),
@@ -145,6 +146,7 @@ abstract class SchedulerAbstract implements SchedulerContract
                 Arr::get($node, 'path')
             );
         }
+
     }
 
     /**

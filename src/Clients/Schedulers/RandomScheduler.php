@@ -30,6 +30,7 @@ class RandomScheduler extends SchedulerAbstract
      */
     public function policy() : Node
     {
+
         // 失败次数大于阈值的节点标记为不可用
         foreach ($this->nodes as $node) {
             /**
@@ -43,7 +44,6 @@ class RandomScheduler extends SchedulerAbstract
         $nodes = collect($this->nodes)->filter(function (Node $node) {
             return $node->getStatus() == true;
         });
-
         if ($nodes->isEmpty()) {
             throw new EnableNodeNotFoundException("The [{$this->serverName}] has no enable node in list.");
         }
