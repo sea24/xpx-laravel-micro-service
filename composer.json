@@ -1,11 +1,11 @@
 {
-    "name": "gzoran\/laravel-micro-service",
+    "name": "xpx/laravel-micro-service",
     "description": "The micro service support for laravel",
     "license": "MIT",
     "authors": [
         {
-            "name": "Mike",
-            "email": "zhengzhe94@gmail.com"
+            "name": "Sea",
+            "email": "2602672132@qq.com"
         }
     ],
     "require": {
